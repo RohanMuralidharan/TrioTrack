@@ -34,7 +34,7 @@ export default function Sidebar({ isMobile, onClose }: SidebarProps) {
           <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white">
             <i className="ri-building-4-line text-lg"></i>
           </div>
-          <h1 className="ml-3 text-xl font-semibold text-gray-900">UrbanMonitor</h1>
+          <h1 className="ml-3 text-xl font-semibold text-gray-900">TrioTrack</h1>
           {isMobile && (
             <button 
               onClick={onClose}
@@ -68,7 +68,7 @@ export default function Sidebar({ isMobile, onClose }: SidebarProps) {
         <div className="flex items-center">
           <div className="h-9 w-9 rounded-full bg-gray-300"></div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-gray-700">Jane Cooper</p>
+            <p className="text-sm font-medium text-gray-700">Rohan Muralidharan</p>
             <p className="text-xs text-gray-500">City Planner</p>
           </div>
         </div>
