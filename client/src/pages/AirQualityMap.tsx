@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiRequest } from '@/lib/queryClient';
 import Plotly from 'plotly.js-dist';
 import { AlertCircle, Wind, Thermometer, Droplets, Compass } from "lucide-react";
+import MapVisualization from '@/components/dashboard/MapVisualization';
 
 interface AirQualityInput {
   pm25: number;
