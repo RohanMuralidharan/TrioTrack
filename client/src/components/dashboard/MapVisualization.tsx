@@ -106,9 +106,9 @@ export default function MapVisualization({
     }));
   };
   
-  // Default city coordinates (NYC area)
-  const defaultPosition: [number, number] = [40, -74.5];
-  const defaultZoom = 11;
+  // Default position set to India - center point of the country
+  const defaultPosition: [number, number] = [20.5937, 78.9629];
+  const defaultZoom = 5;
 
   return (
     <div className={`bg-white rounded-lg shadow overflow-hidden ${fullWidth ? 'w-full' : ''}`}>

@@ -74,54 +74,84 @@ export class MemStorage implements IStorage {
   }
 
   private initializeData() {
-    // Initialize with some sample data for development
+    // Initialize with Indian cities data
     const locations: InsertLocation[] = [
-      { id: "downtown", name: "Downtown", district: "Central", coordinates: { lat: 40.7128, lng: -74.0060 } },
-      { id: "north", name: "North District", district: "North", coordinates: { lat: 40.7328, lng: -73.9860 } },
-      { id: "west", name: "West Harbor", district: "West", coordinates: { lat: 40.7028, lng: -74.0260 } },
-      { id: "east", name: "East Side", district: "East", coordinates: { lat: 40.7228, lng: -73.9760 } },
-      { id: "south", name: "South Valley", district: "South", coordinates: { lat: 40.6928, lng: -74.0160 } }
+      { id: "delhi", name: "Delhi", district: "NCR", coordinates: { lat: 28.6139, lng: 77.2090 } },
+      { id: "mumbai", name: "Mumbai", district: "Maharashtra", coordinates: { lat: 19.0760, lng: 72.8777 } },
+      { id: "bangalore", name: "Bangalore", district: "Karnataka", coordinates: { lat: 12.9716, lng: 77.5946 } },
+      { id: "chennai", name: "Chennai", district: "Tamil Nadu", coordinates: { lat: 13.0827, lng: 80.2707 } },
+      { id: "kolkata", name: "Kolkata", district: "West Bengal", coordinates: { lat: 22.5726, lng: 88.3639 } },
+      { id: "hyderabad", name: "Hyderabad", district: "Telangana", coordinates: { lat: 17.3850, lng: 78.4867 } },
+      { id: "pune", name: "Pune", district: "Maharashtra", coordinates: { lat: 18.5204, lng: 73.8567 } },
+      { id: "ahmedabad", name: "Ahmedabad", district: "Gujarat", coordinates: { lat: 23.0225, lng: 72.5714 } }
     ];
 
     locations.forEach(location => this.addLocation(location));
 
-    // Add sample air quality data
+    // Add sample air quality data for Indian cities
     const airQualitySamples: InsertAirQualityData[] = [
-      { locationId: "downtown", aqi: 132, pm25: 45, pm10: 65, no2: 32, o3: 19, co: 5, so2: 10, source: "sensor" },
-      { locationId: "north", aqi: 156, pm25: 58, pm10: 82, no2: 41, o3: 25, co: 6, so2: 14, source: "sensor" },
-      { locationId: "west", aqi: 88, pm25: 29, pm10: 40, no2: 25, o3: 12, co: 3, so2: 7, source: "sensor" },
-      { locationId: "east", aqi: 110, pm25: 38, pm10: 55, no2: 31, o3: 17, co: 4, so2: 9, source: "sensor" },
-      { locationId: "south", aqi: 65, pm25: 20, pm10: 30, no2: 19, o3: 8, co: 2, so2: 5, source: "sensor" }
+      { locationId: "delhi", aqi: 204, pm25: 160, pm10: 210, no2: 88, o3: 32, co: 12, so2: 18, source: "sensor" },
+      { locationId: "mumbai", aqi: 156, pm25: 65, pm10: 122, no2: 51, o3: 28, co: 8, so2: 14, source: "sensor" },
+      { locationId: "bangalore", aqi: 95, pm25: 35, pm10: 68, no2: 32, o3: 18, co: 4, so2: 8, source: "sensor" },
+      { locationId: "chennai", aqi: 110, pm25: 42, pm10: 85, no2: 39, o3: 21, co: 6, so2: 11, source: "sensor" },
+      { locationId: "kolkata", aqi: 184, pm25: 89, pm10: 156, no2: 61, o3: 29, co: 9, so2: 16, source: "sensor" },
+      { locationId: "hyderabad", aqi: 112, pm25: 45, pm10: 87, no2: 38, o3: 22, co: 5, so2: 10, source: "sensor" },
+      { locationId: "pune", aqi: 84, pm25: 32, pm10: 62, no2: 28, o3: 15, co: 3, so2: 7, source: "sensor" },
+      { locationId: "ahmedabad", aqi: 168, pm25: 78, pm10: 140, no2: 58, o3: 27, co: 8, so2: 15, source: "sensor" }
     ];
 
     airQualitySamples.forEach(sample => this.addAirQualityData(sample));
 
-    // Add sample traffic data
+    // Add sample traffic data for Indian cities
     const trafficSamples: InsertTrafficData[] = [
-      { locationId: "downtown", congestionLevel: 68, vehicleCount: 345, averageSpeed: 15, isHotspot: false },
-      { locationId: "north", congestionLevel: 42, vehicleCount: 210, averageSpeed: 25, isHotspot: false },
-      { locationId: "west", congestionLevel: 92, vehicleCount: 580, averageSpeed: 8, isHotspot: true },
-      { locationId: "east", congestionLevel: 76, vehicleCount: 420, averageSpeed: 12, isHotspot: true },
-      { locationId: "south", congestionLevel: 58, vehicleCount: 280, averageSpeed: 18, isHotspot: false }
+      { locationId: "delhi", congestionLevel: 92, vehicleCount: 1850, averageSpeed: 8, isHotspot: true },
+      { locationId: "mumbai", congestionLevel: 88, vehicleCount: 1720, averageSpeed: 10, isHotspot: true },
+      { locationId: "bangalore", congestionLevel: 82, vehicleCount: 1450, averageSpeed: 12, isHotspot: true },
+      { locationId: "chennai", congestionLevel: 78, vehicleCount: 1320, averageSpeed: 14, isHotspot: true },
+      { locationId: "kolkata", congestionLevel: 85, vehicleCount: 1550, averageSpeed: 11, isHotspot: true },
+      { locationId: "hyderabad", congestionLevel: 75, vehicleCount: 1280, averageSpeed: 15, isHotspot: true },
+      { locationId: "pune", congestionLevel: 68, vehicleCount: 980, averageSpeed: 18, isHotspot: false },
+      { locationId: "ahmedabad", congestionLevel: 72, vehicleCount: 1150, averageSpeed: 16, isHotspot: true }
     ];
 
     trafficSamples.forEach(sample => this.addTrafficData(sample));
 
-    // Add sample predictions
+    // Add sample predictions for Indian cities
     const predictionSamples: InsertPrediction[] = [
       { 
-        locationId: "downtown", 
+        locationId: "delhi", 
         type: "air", 
-        currentValue: 132,
-        predictedValues: { "2h": 125, "4h": 98, "6h": 75 },
-        confidence: 87
+        currentValue: 204,
+        predictedValues: { "2h": 215, "4h": 198, "6h": 175 },
+        confidence: 91
       },
       { 
-        locationId: "downtown", 
+        locationId: "delhi", 
         type: "traffic", 
-        currentValue: 68,
-        predictedValues: { "1h": 72, "2h": 85, "3h": 65 },
-        confidence: 82
+        currentValue: 92,
+        predictedValues: { "1h": 94, "2h": 85, "3h": 76 },
+        confidence: 88
+      },
+      { 
+        locationId: "mumbai", 
+        type: "air", 
+        currentValue: 156,
+        predictedValues: { "2h": 168, "4h": 142, "6h": 122 },
+        confidence: 89
+      },
+      { 
+        locationId: "mumbai", 
+        type: "traffic", 
+        currentValue: 88,
+        predictedValues: { "1h": 92, "2h": 82, "3h": 75 },
+        confidence: 86
+      },
+      { 
+        locationId: "bangalore", 
+        type: "air", 
+        currentValue: 95,
+        predictedValues: { "2h": 105, "4h": 88, "6h": 72 },
+        confidence: 84
       }
     ];
 
