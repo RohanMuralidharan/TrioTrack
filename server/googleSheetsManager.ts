@@ -7,13 +7,32 @@ import { google } from 'googleapis';
 export async function getOrCreateSpreadsheet(title: string): Promise<string> {
   try {
     // Load credentials from environment variable
-    const credentials = JSON.parse(process.env.GOOGLE_API_CREDENTIALS || '{}');
+    if (!process.env.GOOGLE_API_CREDENTIALS) {
+      throw new Error('Google API credentials not found in environment variables');
+    }
+    
+    // Parse credentials, making sure to handle escaped newlines
+    let credentials;
+    try {
+      credentials = JSON.parse(process.env.GOOGLE_API_CREDENTIALS);
+    } catch (parseError) {
+      console.error('Error parsing Google API credentials:', parseError);
+      throw new Error('Invalid Google API credentials format');
+    }
+    
+    // Check for required credential properties
+    if (!credentials.client_email || !credentials.private_key) {
+      throw new Error('Google API credentials missing required fields (client_email, private_key)');
+    }
+    
+    // Log success but mask private data
+    console.log(`Using service account: ${credentials.client_email}`);
     
     // Create a new JWT client using the credentials
     const auth = new google.auth.JWT(
       credentials.client_email,
       undefined,
-      credentials.private_key,
+      credentials.private_key.replace(/\\n/g, '\n'), // Ensure newlines are correctly formatted
       ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     );
     

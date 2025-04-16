@@ -43,6 +43,36 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  try {
+    // Initialize Google Sheets storage if we have credentials
+    if (process.env.GOOGLE_API_CREDENTIALS) {
+      console.log('Google API credentials found, initializing Google Sheets storage...');
+      
+      // Get or create the spreadsheet
+      const spreadsheetId = await getOrCreateSpreadsheet(SPREADSHEET_NAME);
+      
+      if (spreadsheetId) {
+        // Create a new Google Sheets storage instance
+        const sheetsStorage = new GoogleSheetsStorage(spreadsheetId);
+        
+        // Initialize the spreadsheet with required sheets and headers
+        await sheetsStorage.initializeSpreadsheet();
+        
+        // Replace the storage reference with our Google Sheets implementation
+        Object.assign(storage, sheetsStorage);
+        
+        console.log(`Successfully initialized Google Sheets storage with spreadsheet ID: ${spreadsheetId}`);
+      } else {
+        console.error('Failed to get or create spreadsheet. Using in-memory storage instead.');
+      }
+    } else {
+      console.log('No Google API credentials found. Using in-memory storage.');
+    }
+  } catch (error) {
+    console.error('Error initializing Google Sheets storage:', error);
+    console.log('Falling back to in-memory storage.');
+  }
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

@@ -67,17 +67,11 @@ export const airQualityData = pgTable("air_quality_data", {
   source: text("source") // sensor, prediction, etc.
 });
 
-export const insertAirQualitySchema = createInsertSchema(airQualityData).pick({
-  locationId: true,
-  aqi: true,
-  pm25: true,
-  pm10: true,
-  no2: true,
-  o3: true,
-  co: true,
-  so2: true,
-  source: true
-});
+export const insertAirQualitySchema = createInsertSchema(airQualityData)
+  .omit({ id: true })
+  .extend({
+    timestamp: z.date().optional()
+  });
 
 // Traffic data table
 export const trafficData = pgTable("traffic_data", {
@@ -90,13 +84,11 @@ export const trafficData = pgTable("traffic_data", {
   isHotspot: boolean("is_hotspot").default(false)
 });
 
-export const insertTrafficSchema = createInsertSchema(trafficData).pick({
-  locationId: true,
-  congestionLevel: true,
-  vehicleCount: true,
-  averageSpeed: true,
-  isHotspot: true
-});
+export const insertTrafficSchema = createInsertSchema(trafficData)
+  .omit({ id: true })
+  .extend({
+    timestamp: z.date().optional()
+  });
 
 // User Reports table
 export const reports = pgTable("reports", {
@@ -111,13 +103,13 @@ export const reports = pgTable("reports", {
   updatedAt: timestamp("updated_at").defaultNow()
 });
 
-export const insertReportSchema = createInsertSchema(reports).pick({
-  issueType: true,
-  location: true,
-  description: true,
-  photoUrl: true,
-  userId: true
-});
+export const insertReportSchema = createInsertSchema(reports)
+  .omit({ id: true })
+  .extend({
+    status: z.string().default('open'),
+    createdAt: z.date().optional(),
+    updatedAt: z.date().optional()
+  });
 
 // Locations table
 export const locations = pgTable("locations", {
@@ -139,18 +131,17 @@ export const predictions = pgTable("predictions", {
   locationId: text("location_id").notNull(),
   type: text("type").notNull(), // air, traffic, etc.
   currentValue: integer("current_value").notNull(),
-  predictedValues: jsonb("predicted_values").notNull(), // { 2h: 120, 4h: 100, etc. }
+  predictions: jsonb("predictions").notNull(), // { 2h: 120, 4h: 100, etc. }
   confidence: integer("confidence").notNull(),
-  createdAt: timestamp("created_at").defaultNow()
+  timestamp: timestamp("timestamp").defaultNow()
 });
 
-export const insertPredictionSchema = createInsertSchema(predictions).pick({
-  locationId: true,
-  type: true,
-  currentValue: true,
-  predictedValues: true,
-  confidence: true
-});
+export const insertPredictionSchema = createInsertSchema(predictions)
+  .omit({ id: true })
+  .extend({
+    predictions: z.record(z.string(), z.number().or(z.string())),
+    timestamp: z.date().optional()
+  });
 
 // Export types
 export type User = typeof users.$inferSelect;
