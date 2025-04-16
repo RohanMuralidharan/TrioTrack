@@ -5,6 +5,7 @@ import { z } from "zod";
 import { insertReportSchema } from "@shared/schema";
 import { airQualityModel } from "./models/airQualityModel";
 import { trafficModel } from "./models/trafficModel";
+import { analyzeAirQuality, AirQualityInput } from "./airQualityAnalysis";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API Routes
@@ -40,6 +41,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Air quality prediction error:', error);
       res.status(500).json({ message: "Failed to generate air quality prediction" });
+    }
+  });
+  
+  // New air quality analysis endpoint that implements the Python model
+  apiRouter.post("/air-quality/analyze", async (req, res) => {
+    try {
+      const inputData: AirQualityInput = {
+        pm25: parseFloat(req.body.pm25) || 0,
+        pm10: parseFloat(req.body.pm10) || 0,
+        no2: parseFloat(req.body.no2) || 0,
+        co: parseFloat(req.body.co) || 0,
+        so2: parseFloat(req.body.so2) || 0,
+        o3: parseFloat(req.body.o3) || 0,
+        temperature: parseFloat(req.body.temperature) || 25,
+        humidity: parseFloat(req.body.humidity) || 50,
+        windSpeed: parseFloat(req.body.windSpeed) || 5,
+        windDirection: req.body.windDirection ? parseFloat(req.body.windDirection) : 180
+      };
+      
+      // Validate input data (ensure non-negative values for measurements)
+      Object.keys(inputData).forEach(key => {
+        const value = inputData[key as keyof AirQualityInput];
+        if (typeof value === 'number' && value < 0 && key !== 'temperature') {
+          inputData[key as keyof AirQualityInput] = 0;
+        }
+      });
+      
+      const result = analyzeAirQuality(inputData);
+      res.json(result);
+    } catch (error) {
+      console.error('Air quality analysis error:', error);
+      res.status(500).json({ message: "Failed to analyze air quality data" });
     }
   });
 

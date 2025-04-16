@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/Dashboard";
 import MapView from "@/pages/MapView";
+import AirQualityMap from "@/pages/AirQualityMap";
 
 function Router() {
   return (
