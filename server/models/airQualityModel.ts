@@ -49,8 +49,13 @@ class AirQualityModel {
   }
   
   async predict(locationId: string): Promise<AirQualityPrediction> {
+    console.log(`Making air quality prediction for location: ${locationId}`);
+    
     // Get current air quality data for the location
     const airQualityData = await storage.getAirQualityData(locationId);
+    
+    console.log(`Retrieved air quality data for ${locationId}: `, 
+                airQualityData.length > 0 ? airQualityData[0] : 'No data found');
     
     if (!airQualityData || airQualityData.length === 0) {
       throw new Error(`No air quality data available for location ${locationId}`);

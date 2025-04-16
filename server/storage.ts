@@ -157,26 +157,40 @@ export class MemStorage implements IStorage {
 
     predictionSamples.forEach(sample => this.addPrediction(sample));
 
-    // Add sample reports
+    // Add sample reports for Indian cities
     const reportSamples: InsertReport[] = [
       {
         issueType: "airPollution",
-        location: "North Industrial Zone, Block 4, Building 7",
-        description: "Factory emitting heavy black smoke throughout the day",
+        location: "Delhi, Anand Vihar Industrial Area",
+        description: "Factory cluster emitting heavy black smoke throughout the day",
         userId: undefined,
         photoUrl: undefined
       },
       {
         issueType: "trafficCongestion",
-        location: "West Highway, Mile 23, Exit 12",
-        description: "Major accident blocking 2 lanes",
+        location: "Mumbai, Western Express Highway near Andheri",
+        description: "Major accident blocking 3 lanes causing severe congestion",
         userId: undefined,
         photoUrl: undefined
       },
       {
         issueType: "flooding",
-        location: "Downtown, Oak Street & 7th Avenue",
-        description: "Street flooding after heavy rain, water level is about 1 foot",
+        location: "Chennai, T. Nagar Main Road",
+        description: "Street flooding after monsoon rain, water level is about 2 feet",
+        userId: undefined,
+        photoUrl: undefined
+      },
+      {
+        issueType: "airPollution",
+        location: "Kolkata, Howrah Industrial Belt",
+        description: "Thick smog and poor visibility in the industrial area",
+        userId: undefined,
+        photoUrl: undefined
+      },
+      {
+        issueType: "trafficCongestion",
+        location: "Bangalore, Outer Ring Road near Marathahalli",
+        description: "Heavy traffic congestion due to ongoing metro construction",
         userId: undefined,
         photoUrl: undefined
       }

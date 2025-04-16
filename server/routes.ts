@@ -34,10 +34,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   apiRouter.get("/air-quality/prediction", async (req, res) => {
     try {
-      const locationId = req.query.locationId as string || "downtown";
+      const locationId = req.query.locationId as string || "delhi";
       const prediction = await airQualityModel.predict(locationId);
       res.json(prediction);
     } catch (error) {
+      console.error('Air quality prediction error:', error);
       res.status(500).json({ message: "Failed to generate air quality prediction" });
     }
   });
@@ -64,10 +65,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   apiRouter.get("/traffic/predict", async (req, res) => {
     try {
-      const locationId = req.query.locationId as string || "downtown";
+      const locationId = req.query.locationId as string || "delhi";
       const prediction = await trafficModel.predict(locationId);
       res.json(prediction);
     } catch (error) {
+      console.error('Traffic prediction error:', error);
       res.status(500).json({ message: "Failed to generate traffic prediction" });
     }
   });
