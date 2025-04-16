@@ -4,3 +4,4 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+attached_assets/software-hackathon-457016-40005d4d01b0.json
