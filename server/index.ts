@@ -56,12 +56,17 @@ app.use((req, res, next) => {
         const sheetsStorage = new GoogleSheetsStorage(spreadsheetId);
         
         // Initialize the spreadsheet with required sheets and headers
-        await sheetsStorage.initializeSpreadsheet();
-        
-        // Replace the storage reference with our Google Sheets implementation
-        Object.assign(storage, sheetsStorage);
-        
-        console.log(`Successfully initialized Google Sheets storage with spreadsheet ID: ${spreadsheetId}`);
+        try {
+          await sheetsStorage.initializeSpreadsheet();
+          
+          // Replace the storage reference with our Google Sheets implementation
+          Object.assign(storage, sheetsStorage);
+          
+          console.log("Successfully switched to Google Sheets storage");
+        } catch (initError) {
+          console.error("Error initializing Google Sheets spreadsheet:", initError);
+          console.log("Falling back to in-memory storage due to spreadsheet initialization error");
+        }
       } else {
         console.error('Failed to get or create spreadsheet. Using in-memory storage instead.');
       }

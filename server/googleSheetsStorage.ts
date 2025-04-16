@@ -187,14 +187,14 @@ export class GoogleSheetsStorage implements IStorage {
     if (locations.length === 0) {
       // Indian cities data
       const indianCities = [
-        { id: 'delhi', name: 'Delhi', latitude: 28.6139, longitude: 77.2090, district: 'Central Delhi', state: 'Delhi', country: 'India', population: 21000000 },
-        { id: 'mumbai', name: 'Mumbai', latitude: 19.0760, longitude: 72.8777, district: 'Mumbai City', state: 'Maharashtra', country: 'India', population: 12400000 },
-        { id: 'bangalore', name: 'Bangalore', latitude: 12.9716, longitude: 77.5946, district: 'Bangalore Urban', state: 'Karnataka', country: 'India', population: 8400000 },
-        { id: 'chennai', name: 'Chennai', latitude: 13.0827, longitude: 80.2707, district: 'Chennai', state: 'Tamil Nadu', country: 'India', population: 7100000 },
-        { id: 'kolkata', name: 'Kolkata', latitude: 22.5726, longitude: 88.3639, district: 'Kolkata', state: 'West Bengal', country: 'India', population: 4500000 },
-        { id: 'hyderabad', name: 'Hyderabad', latitude: 17.3850, longitude: 78.4867, district: 'Hyderabad', state: 'Telangana', country: 'India', population: 6800000 },
-        { id: 'pune', name: 'Pune', latitude: 18.5204, longitude: 73.8567, district: 'Pune', state: 'Maharashtra', country: 'India', population: 3100000 },
-        { id: 'ahmedabad', name: 'Ahmedabad', latitude: 23.0225, longitude: 72.5714, district: 'Ahmedabad', state: 'Gujarat', country: 'India', population: 5500000 }
+        { id: 'delhi', name: 'Delhi', latitude: '28.6139', longitude: '77.2090', district: 'Central Delhi', state: 'Delhi', country: 'India', population: 21000000 },
+        { id: 'mumbai', name: 'Mumbai', latitude: '19.0760', longitude: '72.8777', district: 'Mumbai City', state: 'Maharashtra', country: 'India', population: 12400000 },
+        { id: 'bangalore', name: 'Bangalore', latitude: '12.9716', longitude: '77.5946', district: 'Bangalore Urban', state: 'Karnataka', country: 'India', population: 8400000 },
+        { id: 'chennai', name: 'Chennai', latitude: '13.0827', longitude: '80.2707', district: 'Chennai', state: 'Tamil Nadu', country: 'India', population: 7100000 },
+        { id: 'kolkata', name: 'Kolkata', latitude: '22.5726', longitude: '88.3639', district: 'Kolkata', state: 'West Bengal', country: 'India', population: 4500000 },
+        { id: 'hyderabad', name: 'Hyderabad', latitude: '17.3850', longitude: '78.4867', district: 'Hyderabad', state: 'Telangana', country: 'India', population: 6800000 },
+        { id: 'pune', name: 'Pune', latitude: '18.5204', longitude: '73.8567', district: 'Pune', state: 'Maharashtra', country: 'India', population: 3100000 },
+        { id: 'ahmedabad', name: 'Ahmedabad', latitude: '23.0225', longitude: '72.5714', district: 'Ahmedabad', state: 'Gujarat', country: 'India', population: 5500000 }
       ];
       
       for (const city of indianCities) {
@@ -691,12 +691,12 @@ export class GoogleSheetsStorage implements IStorage {
     return rows.map(row => ({
       id: row[headers.indexOf('id')],
       name: row[headers.indexOf('name')],
-      latitude: parseFloat(row[headers.indexOf('latitude')]),
-      longitude: parseFloat(row[headers.indexOf('longitude')]),
+      latitude: row[headers.indexOf('latitude')],
+      longitude: row[headers.indexOf('longitude')],
       district: row[headers.indexOf('district')],
-      state: row[headers.indexOf('state')],
-      country: row[headers.indexOf('country')],
-      population: parseInt(row[headers.indexOf('population')])
+      state: row[headers.indexOf('state')] || null,
+      country: row[headers.indexOf('country')] || null,
+      population: row[headers.indexOf('population')] ? parseInt(row[headers.indexOf('population')]) : null
     }));
   }
   
@@ -901,7 +901,7 @@ export class GoogleSheetsStorage implements IStorage {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [location.longitude, location.latitude]
+          coordinates: [parseFloat(location.longitude), parseFloat(location.latitude)]
         },
         properties: {
           id: location.id,
