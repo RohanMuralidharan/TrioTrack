@@ -1,12 +1,11 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { getOrCreateSpreadsheet } from "./googleSheetsManager";
-import { GoogleSheetsStorage } from "./googleSheetsStorage";
 import { storage } from "./storage";
+import { initializeFileStorage } from "./fileStorage";
 
-// Define the spreadsheet name for our application
-const SPREADSHEET_NAME = "Urban Monitoring Platform Data";
+// Auto-save interval in minutes
+const AUTO_SAVE_INTERVAL = 5;
 
 const app = express();
 app.use(express.json());
@@ -44,38 +43,13 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
-    // Initialize Google Sheets storage if we have credentials
-    if (process.env.GOOGLE_API_CREDENTIALS) {
-      console.log('Google API credentials found, initializing Google Sheets storage...');
-      
-      // Get or create the spreadsheet
-      const spreadsheetId = await getOrCreateSpreadsheet(SPREADSHEET_NAME);
-      
-      if (spreadsheetId) {
-        // Create a new Google Sheets storage instance
-        const sheetsStorage = new GoogleSheetsStorage(spreadsheetId);
-        
-        // Initialize the spreadsheet with required sheets and headers
-        try {
-          await sheetsStorage.initializeSpreadsheet();
-          
-          // Replace the storage reference with our Google Sheets implementation
-          Object.assign(storage, sheetsStorage);
-          
-          console.log("Successfully switched to Google Sheets storage");
-        } catch (initError) {
-          console.error("Error initializing Google Sheets spreadsheet:", initError);
-          console.log("Falling back to in-memory storage due to spreadsheet initialization error");
-        }
-      } else {
-        console.error('Failed to get or create spreadsheet. Using in-memory storage instead.');
-      }
-    } else {
-      console.log('No Google API credentials found. Using in-memory storage.');
-    }
+    // Initialize file-based storage with auto-save capability
+    console.log(`Initializing file-based storage with auto-save (${AUTO_SAVE_INTERVAL} minutes)...`);
+    initializeFileStorage();
+    console.log("Successfully initialized file-based persistent storage");
   } catch (error) {
-    console.error('Error initializing Google Sheets storage:', error);
-    console.log('Falling back to in-memory storage.');
+    console.error('Error initializing file-based storage:', error);
+    console.log('Using basic in-memory storage without persistence.');
   }
   
   const server = await registerRoutes(app);
