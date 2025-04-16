@@ -12,6 +12,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Dashboard} />
       <Route path="/map" component={MapView} />
+      <Route path="/air-quality-map" component={AirQualityMap} />
       <Route component={NotFound} />
     </Switch>
   );

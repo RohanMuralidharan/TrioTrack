@@ -16,6 +16,7 @@ export default function Sidebar({ isMobile, onClose }: SidebarProps) {
     { icon: "ri-dashboard-line", label: "Dashboard", path: "/" },
     { icon: "ri-map-pin-line", label: "Map View", path: "/map" },
     { icon: "ri-bubble-chart-line", label: "Air Quality", path: "/air-quality" },
+    { icon: "ri-wind-line", label: "Air Quality Map", path: "/air-quality-map" },
     { icon: "ri-traffic-line", label: "Traffic Analysis", path: "/traffic" },
     { icon: "ri-flood-line", label: "Flood Monitoring", path: "/flood" },
     { icon: "ri-alert-line", label: "Alerts", path: "/alerts" },

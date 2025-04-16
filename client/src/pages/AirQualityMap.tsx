@@ -80,7 +80,7 @@ export default function AirQualityMap() {
   const handleAnalyze = async () => {
     setIsLoading(true);
     try {
-      const result = await apiRequest<AirQualityResult>('/api/air-quality/analyze', {
+      const resultData = await apiRequest('/api/air-quality/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,6 +88,8 @@ export default function AirQualityMap() {
         body: JSON.stringify(inputs),
       });
       
+      // Type assertion to convert the response to our expected type
+      const result = resultData as AirQualityResult;
       setResult(result);
       
       toast({
