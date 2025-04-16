@@ -211,10 +211,10 @@ export default function MapVisualization({
         
         {/* Map Legend */}
         <div className="absolute bottom-5 right-5 bg-white p-3 rounded-lg shadow-md z-10 text-xs">
-          <div className="font-medium mb-1 text-gray-700">Map Legend</div>
+          <div className="font-medium mb-1 text-gray-700">Air Quality Index</div>
           <div className="flex items-center mt-1">
             <span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span>
-            <span>Good Air Quality (0-50)</span>
+            <span>Good (0-50)</span>
           </div>
           <div className="flex items-center mt-1">
             <span className="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-1"></span>
@@ -235,6 +235,26 @@ export default function MapVisualization({
           <div className="flex items-center mt-1">
             <span className="inline-block w-3 h-3 rounded-full bg-rose-900 mr-1"></span>
             <span>Hazardous (301+)</span>
+          </div>
+          
+          <div className="border-t border-gray-200 my-2"></div>
+          
+          <div className="font-medium mb-1 text-gray-700">Traffic Congestion</div>
+          <div className="flex items-center mt-1">
+            <span className="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span>
+            <span>Light (0-30%)</span>
+          </div>
+          <div className="flex items-center mt-1">
+            <span className="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-1"></span>
+            <span>Moderate (31-60%)</span>
+          </div>
+          <div className="flex items-center mt-1">
+            <span className="inline-block w-3 h-3 rounded-full bg-orange-500 mr-1"></span>
+            <span>Heavy (61-80%)</span>
+          </div>
+          <div className="flex items-center mt-1">
+            <span className="inline-block w-3 h-3 rounded-full bg-red-500 mr-1"></span>
+            <span>Severe (81-100%)</span>
           </div>
         </div>
         
