@@ -2,6 +2,41 @@ import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizz
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Storage interface for both in-memory and Google Sheets
+export interface IStorage {
+  // User methods
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+  
+  // Air quality methods
+  getAirQualityData(locationId?: string): Promise<AirQualityData[]>;
+  addAirQualityData(data: InsertAirQualityData): Promise<AirQualityData>;
+  
+  // Traffic methods
+  getTrafficData(locationId?: string): Promise<TrafficData[]>;
+  getTrafficHotspots(): Promise<any[]>;
+  addTrafficData(data: InsertTrafficData): Promise<TrafficData>;
+  
+  // Reports methods
+  getReports(filter?: string, page?: number, perPage?: number): Promise<any>;
+  getReport(id: number): Promise<Report | undefined>;
+  createReport(report: InsertReport): Promise<Report>;
+  updateReport(id: number, status: string): Promise<Report | undefined>;
+  
+  // Locations methods
+  getLocations(): Promise<Location[]>;
+  addLocation(location: InsertLocation): Promise<Location>;
+  
+  // Predictions methods
+  getPrediction(locationId: string, type: string): Promise<Prediction | undefined>;
+  addPrediction(prediction: InsertPrediction): Promise<Prediction>;
+  
+  // Dashboard methods
+  getStatsOverview(): Promise<any>;
+  getMapData(): Promise<any>;
+}
+
 // Users table
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -89,7 +124,11 @@ export const locations = pgTable("locations", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   district: text("district").notNull(),
-  coordinates: jsonb("coordinates").notNull() // { lat: number, lng: number }
+  latitude: text("latitude").notNull(),
+  longitude: text("longitude").notNull(),
+  state: text("state"),
+  country: text("country"),
+  population: integer("population")
 });
 
 export const insertLocationSchema = createInsertSchema(locations);

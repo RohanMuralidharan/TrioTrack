@@ -1,6 +1,12 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { getOrCreateSpreadsheet } from "./googleSheetsManager";
+import { GoogleSheetsStorage } from "./googleSheetsStorage";
+import { storage } from "./storage";
+
+// Define the spreadsheet name for our application
+const SPREADSHEET_NAME = "Urban Monitoring Platform Data";
 
 const app = express();
 app.use(express.json());
